@@ -1,0 +1,9 @@
+{
+  "background_color": "#222428",
+  "description": "ITcom trainings",
+  "display": "fullscreen",
+  "icons": [{ "src": "icons/icon-store.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "maskable" }],
+  "name": "ITcom trainings",
+  "short_name": "ITcom trainings",
+  "start_url": "../index.html"
+}

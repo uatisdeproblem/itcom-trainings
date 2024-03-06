@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "angular.ng-template",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ionic.ionic",
+    "johnpapa.angular2",
+    "42crunch.vscode-openapi"
+  ],
+  "unwantedRecommendations": []
+}

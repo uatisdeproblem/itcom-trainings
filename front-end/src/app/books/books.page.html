@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="app.goTo([''])">
+        <ion-icon icon="arrow-back" slot="icon-only" />
+      </ion-button>
+    </ion-buttons>
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button [value]="PageSegments.TOP_10">
+        <ion-label>{{ 'BOOKS.TOP_10' | translate }}</ion-label>
+      </ion-segment-button>
+      <ion-segment-button [value]="PageSegments.ALL">
+        <ion-label>{{ 'BOOKS.ALL_BOOKS' | translate }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <ion-buttons slot="end">
+      <ion-button [title]="'COMMON.ADD' | translate" (click)="newBook()">
+        <ion-icon icon="add" slot="icon-only" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  @if(segment === PageSegments.ALL) {
+  <ion-toolbar>
+    <ion-searchbar (ionChange)="filter($event?.target.value)" />
+  </ion-toolbar>
+  }
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event?.target)">
+    <ion-refresher-content />
+  </ion-refresher>
+  @if(segment === PageSegments.ALL) {
+  <ion-list class="aList maxWidthContainer">
+    @if(books) { @for(book of books; track book.bookId) {
+    <app-book [book]="book" (select)="openBook(book)" />
+    } @empty {
+    <ion-item>{{ 'COMMON.NO_ELEMENTS' | translate }}</ion-item>
+    } } @else {
+    <app-book />
+    }
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="filter(searchbar?.value, $event?.target)">
+    <ion-infinite-scroll-content />
+  </ion-infinite-scroll>
+  } @else if (segment === PageSegments.TOP_10) {
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      @for(book of topBooks; track book.bookId) {
+      <ion-col [size]="12" [sizeSm]="6" [sizeMd]="4" [sizeLg]="3" [sizeXl]="2">
+        <ion-img
+          class="tappable coverImage"
+          [src]="getCoverURL(book)"
+          (ionError)="setCoverFallbackURLOnImage($event?.target)"
+          (click)="openBook(book)"
+        />
+        <p class="ion-text-center bookTitle"><b>#{{ $index + 1 }} - {{ book.title }}</b></p>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+  }
+</ion-content>
