@@ -8,11 +8,6 @@ const routes: Routes = [
     path: '',
     loadChildren: (): Promise<any> => import('./tabs/tabs.module').then(m => m.TabsPageModule),
     canActivate: [initGuard]
-  },
-  {
-    path: 'app-status',
-    loadChildren: (): Promise<any> => import('@idea-ionic/common').then(m => m.IDEAAppStatusModule),
-    canActivate: [initGuard]
   }
 ];
 

@@ -15,36 +15,12 @@ import { parameters, stages, Stage, versionStatus } from './environments';
 //
 
 const apiResources: ResourceController[] = [
-  { name: 'status', paths: ['/status'] },
-  { name: 'books', paths: ['/books', '/books/{bookId}'] }
+  { name: 'communications', paths: ['/communications', '/communications/{communicationId}'] }
 ];
 
 const tables: { [tableName: string]: DDBTable } = {
-  status: {
-    PK: { name: 'version', type: DDB.AttributeType.STRING }
-  },
-  books: {
-    PK: { name: 'bookId', type: DDB.AttributeType.STRING },
-    indexes: [
-      {
-        indexName: 'publisherId-publishDate-index',
-        partitionKey: { name: 'publisherId', type: DDB.AttributeType.STRING },
-        sortKey: { name: 'publishDate', type: DDB.AttributeType.STRING },
-        projectionType: DDB.ProjectionType.INCLUDE,
-        nonKeyAttributes: ['title', 'genre', 'author', 'rating', 'ratingsCount']
-      },
-      {
-        indexName: 'hasRatings-rating-index',
-        partitionKey: { name: 'hasRatings', type: DDB.AttributeType.NUMBER },
-        sortKey: { name: 'rating', type: DDB.AttributeType.NUMBER },
-        projectionType: DDB.ProjectionType.INCLUDE,
-        nonKeyAttributes: ['title', 'genre', 'author', 'ratingsCount', 'coverURI']
-      }
-    ]
-  },
-  ratings: {
-    PK: { name: 'bookId', type: DDB.AttributeType.STRING },
-    SK: { name: 'userId', type: DDB.AttributeType.STRING }
+  communications: {
+    PK: { name: 'communicationId', type: DDB.AttributeType.STRING }
   }
 };
 
