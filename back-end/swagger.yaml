@@ -21,10 +21,19 @@ externalDocs:
   url: https://github.com/uatisdeproblem/itcom-trainings/tree/main/back-end/src/models
 
 tags:
+  - name: Configurations
+    description: The platfrom's configurations
   - name: Communications
     description: The platform's communications
 
 paths:
+  /media:
+    post:
+      summary: Get a signed URL to upload a new image
+      tags: [Configurations]
+      responses:
+        200:
+          $ref: '#/components/responses/OperationCompleted'
   /communications:
     get:
       summary: Get the communications

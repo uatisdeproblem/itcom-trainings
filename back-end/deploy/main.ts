@@ -15,6 +15,7 @@ import { parameters, stages, Stage, versionStatus } from './environments';
 //
 
 const apiResources: ResourceController[] = [
+  { name: 'media', paths: ['/media'] },
   { name: 'communications', paths: ['/communications', '/communications/{communicationId}'] }
 ];
 

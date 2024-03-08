@@ -9,7 +9,7 @@ import { environment as env } from '@env';
 /**
  * The base URLs where the thumbnails are located.
  */
-const THUMBNAILS_BASE_URL = env.idea.app.mediaUrl.concat('/thumbnails/images/', env.idea.api.stage, '/');
+const THUMBNAILS_BASE_URL = env.idea.app.mediaUrl.concat('/images/', env.idea.api.stage, '/');
 
 @Injectable({ providedIn: 'root' })
 export class AppService {
