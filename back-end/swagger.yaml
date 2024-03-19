@@ -21,16 +21,38 @@ externalDocs:
   url: https://github.com/uatisdeproblem/itcom-trainings/tree/main/back-end/src/models
 
 tags:
+  - name: Login
+    description: Access the platform
   - name: Configurations
     description: The platfrom's configurations
   - name: Communications
     description: The platform's communications
+  - name: Sessions
+    description: The platform's sessions
 
 paths:
+  /login:
+    get:
+      summary: Manage the login accepted request from ESN Accounts and prepare a token to authenticate the user
+      description: Acquire the CAS ticket, validate it, create the user (if necessary) and return a token.
+      tags: [Login]
+      parameters:
+        - name: ticket
+          in: query
+          description: The CAS ticket of successful login with ESN Accounts
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/OperationCompleted'
+
   /media:
     post:
       summary: Get a signed URL to upload a new image
       tags: [Configurations]
+      security:
+        - AuthFunction: []
       responses:
         200:
           $ref: '#/components/responses/OperationCompleted'
@@ -38,6 +60,8 @@ paths:
     get:
       summary: Get the communications
       tags: [Communications]
+      security:
+        - AuthFunction: []
       parameters:
         - name: year
           in: query
@@ -50,6 +74,8 @@ paths:
     post:
       summary: Insert a new communication
       tags: [Communications]
+      security:
+        - AuthFunction: []
       requestBody:
         required: true
         content:
@@ -65,6 +91,8 @@ paths:
     get:
       summary: Get a communication
       tags: [Communications]
+      security:
+        - AuthFunction: []
       parameters:
         - name: communicationId
           in: path
@@ -78,6 +106,8 @@ paths:
     put:
       summary: Edit a communication
       tags: [Communications]
+      security:
+        - AuthFunction: []
       parameters:
         - name: communicationId
           in: path
@@ -99,6 +129,8 @@ paths:
     delete:
       summary: Delete a communication
       tags: [Communications]
+      security:
+        - AuthFunction: []
       parameters:
         - name: communicationId
           in: path
@@ -111,10 +143,121 @@ paths:
           $ref: '#/components/responses/OperationCompleted'
         400:
           $ref: '#/components/responses/BadParameters'
+  /sessions:
+    get:
+      summary: Get the sessions
+      tags: [Sessions]
+      security:
+        - AuthFunction: []
+      responses:
+        200:
+          $ref: '#/components/responses/Sessions'
+    post:
+      summary: Insert a new session
+      tags: [Sessions]
+      security:
+        - AuthFunction: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Session'
+      responses:
+        200:
+          $ref: '#/components/responses/Session'
+        400:
+          $ref: '#/components/responses/BadParameters'
+  /sessions/{sessionId}:
+    get:
+      summary: Get a session
+      tags: [Sessions]
+      security:
+        - AuthFunction: []
+      parameters:
+        - name: sessionId
+          in: path
+          description: Session ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/Session'
+    put:
+      summary: Edit a session
+      tags: [Sessions]
+      security:
+        - AuthFunction: []
+      parameters:
+        - name: sessionId
+          in: path
+          description: Session ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Session'
+      responses:
+        200:
+          $ref: '#/components/responses/Session'
+        400:
+          $ref: '#/components/responses/BadParameters'
+    patch:
+      summary: Actions on a session
+      tags: [Sessions]
+      security:
+        - AuthFunction: []
+      parameters:
+        - name: sessionId
+          in: path
+          description: Session ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                action:
+                  type: string
+                  enum: [REGISTER, CANCEL_REGISTRATION]
+      responses:
+        200:
+          $ref: '#/components/responses/Session'
+        400:
+          $ref: '#/components/responses/BadParameters'
+    delete:
+      summary: Delete a session
+      tags: [Sessions]
+      security:
+        - AuthFunction: []
+      parameters:
+        - name: sessionId
+          in: path
+          description: Session ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/OperationCompleted'
+        400:
+          $ref: '#/components/responses/BadParameters'
 
 components:
   schemas:
     Communication:
+      type: object
+      additionalProperties: {}
+    Session:
       type: object
       additionalProperties: {}
 
@@ -134,6 +277,21 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Communication'
+    Session:
+      description: A session
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/schemas/Session'
+    Sessions:
+      description: The sessions
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Session'
     BadParameters:
       description: Bad input parameters
       content:
@@ -146,3 +304,9 @@ components:
                 example: The request isn't valid
     OperationCompleted:
       description: Operation completed
+
+  securitySchemes:
+    AuthFunction:
+      type: apiKey
+      name: Authorization
+      in: header

@@ -5,6 +5,8 @@
 import { DynamoDB, ResourceController, S3 } from 'idea-aws';
 import { SignedURL } from 'idea-toolbox';
 
+import { User } from '../models/user.model';
+
 ///
 /// CONSTANTS, ENVIRONMENT VARIABLES, HANDLER
 ///
@@ -23,8 +25,11 @@ export const handler = (ev: any, _: any, cb: any): Promise<void> => new Media(ev
 ///
 
 class Media extends ResourceController {
+  galaxyUser: User;
+
   constructor(event: any, callback: any) {
     super(event, callback);
+    this.galaxyUser = new User(event.requestContext.authorizer.lambda.user);
   }
 
   protected async postResources(): Promise<SignedURL> {

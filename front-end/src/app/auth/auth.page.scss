@@ -1,0 +1,42 @@
+.authCard {
+  max-width: 500px;
+  margin: 0 auto;
+  border-radius: 10px;
+  text-align: center;
+  ion-img {
+    height: 120px;
+    display: block;
+    margin: 10px auto;
+    margin-top: 20px;
+  }
+  ion-card-header {
+    padding: 20px 40px;
+    ion-card-title {
+      font-size: 2em;
+    }
+    ion-card-subtitle {
+      font-size: 1.2em;
+    }
+  }
+  ion-card-content {
+    margin-top: 6px;
+    ion-button {
+      width: 300px;
+      height: 40px;
+      text-transform: none;
+    }
+    p.version {
+      margin: 30px;
+      font-size: 0.9em;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .authCard {
+    margin: 10px;
+    ion-img {
+      width: 80px;
+    }
+  }
+}

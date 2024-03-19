@@ -8,20 +8,26 @@ import { ApiDomainStack } from './api-domain-stack';
 import { ResourceController, ApiStack, DDBTable } from './api-stack';
 import { FrontEndStack } from './front-end-stack';
 
-import { parameters, stages, Stage, versionStatus } from './environments';
+import { parameters, stages, Stage } from './environments';
 
 //
 // RESOURCES
 //
 
 const apiResources: ResourceController[] = [
+  { name: 'auth', isAuthFunction: true },
+  { name: 'login', paths: ['/login'] },
   { name: 'media', paths: ['/media'] },
-  { name: 'communications', paths: ['/communications', '/communications/{communicationId}'] }
+  { name: 'communications', paths: ['/communications', '/communications/{communicationId}'] },
+  { name: 'sessions', paths: ['/sessions', '/sessions/{sessionId}'] }
 ];
 
 const tables: { [tableName: string]: DDBTable } = {
   communications: {
     PK: { name: 'communicationId', type: DDB.AttributeType.STRING }
+  },
+  sessions: {
+    PK: { name: 'sessionId', type: DDB.AttributeType.STRING }
   }
 };
 
@@ -69,13 +75,13 @@ const createApp = async (): Promise<void> => {
     project: parameters.project,
     stage: STAGE,
     firstAdminEmail: parameters.firstAdminEmail,
-    versionStatus,
     apiDomain: parameters.apiDomain,
     apiDefinitionFile: './swagger.yaml',
     resourceControllers: apiResources,
     tables,
     mediaBucketArn: mediaStack.mediaBucketArn,
     lambdaLogLevel: STAGE_VARIABLES.logLevel ?? 'INFO',
+    appDomain: STAGE_VARIABLES.domain,
     removalPolicy: STAGE_VARIABLES.destroyDataOnDelete ? cdk.RemovalPolicy.DESTROY : cdk.RemovalPolicy.RETAIN
   });
   apiStack.addDependency(mediaStack);

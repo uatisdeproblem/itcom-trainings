@@ -8,14 +8,19 @@
     "cdk": "cdk"
   },
   "dependencies": {
+    "axios": "^1.6.8",
     "idea-aws": "4.4.7",
-    "idea-toolbox": "7.0.5"
+    "idea-toolbox": "7.0.5",
+    "jsonwebtoken": "^9.0.2",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "^10.1.0",
     "@tsconfig/node18": "^18.2.0",
     "@types/aws-lambda": "^8.10.119",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^18.17.4",
+    "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
     "@typescript-eslint/parser": "^5.47.0",
     "aws-cdk": "^2.118.0",

@@ -5,6 +5,8 @@ import { IDEAApiService, IDEAStorageService } from '@idea-ionic/common';
 
 import { AppService } from './app.service';
 
+import { User } from '@models/user.model';
+
 export const authGuard: CanActivateFn = async (): Promise<boolean> => {
   const platform = inject(Platform);
   const navCtrl = inject(NavController);
@@ -18,8 +20,15 @@ export const authGuard: CanActivateFn = async (): Promise<boolean> => {
   // HELPERS
   //
 
-  const doAuth = async (): Promise<void> => {
-    // @todo
+  const loadUserAndToken = async (): Promise<void> => {
+    const tokenExpiresAt = await storage.get('tokenExpiresAt');
+    if (!tokenExpiresAt || tokenExpiresAt < Date.now()) throw new Error('The token expired');
+
+    api.authToken = await storage.get('token');
+    if (!api.authToken) throw new Error('Missing token');
+
+    app.user = new User(await storage.get('user'));
+    if (!app.user) throw new Error('Missing user');
   };
 
   const navigateAndResolve = (navigationPath?: string[]): boolean => {
@@ -38,11 +47,10 @@ export const authGuard: CanActivateFn = async (): Promise<boolean> => {
   await storage.ready();
 
   try {
-    await doAuth();
-    platform.resume.subscribe((): Promise<void> => doAuth());
+    await loadUserAndToken();
 
     if (window.location.pathname === '/') return navigateAndResolve([]);
-    return navigateAndResolve();
+    else return navigateAndResolve();
   } catch (err) {
     return navigateAndResolve(['auth']);
   }

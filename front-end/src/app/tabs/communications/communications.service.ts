@@ -50,10 +50,12 @@ export class CommunicationsService {
       filteredList = filteredList.filter(x =>
         options.search
           .split(' ')
-          .every(searchTerm => [x.name].filter(f => f).some(f => f.toLowerCase().includes(searchTerm)))
+          .every(searchTerm =>
+            [x.name, x.brief, x.content].filter(f => f).some(f => f.toLowerCase().includes(searchTerm))
+          )
       );
 
-    filteredList = filteredList.sort((a, b): number => b.date.localeCompare(b.date));
+    filteredList = filteredList.sort((a, b): number => b.date.localeCompare(a.date));
 
     if (options.withPagination && filteredList.length > this.MAX_PAGE_SIZE) {
       let indexOfLastOfPreviousPage = 0;

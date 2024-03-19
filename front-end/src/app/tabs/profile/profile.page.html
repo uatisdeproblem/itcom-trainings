@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title class="ion-text-center">
+        <h2>Hello, {{ _app.user.firstName }}</h2>
+      </ion-card-title>
+    </ion-card-header>
+  </ion-card>
+  <p class="ion-text-center">
+    <ion-button color="medium" (click)="_app.logout()">Logout</ion-button>
+  </p>
+</ion-content>

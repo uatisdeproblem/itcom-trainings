@@ -1,0 +1,17 @@
+<ion-content>
+  <form class="flexBox">
+    <ion-card class="authCard">
+      <ion-img [src]="_app.getIcon(_app.isInDarkMode())"></ion-img>
+      <ion-card-header>
+        <ion-card-title>ITcom trainings</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button (click)="startLoginFlowWithESNAccounts()">
+          <ion-icon slot="start" icon="/assets/icons/star-white.svg"></ion-icon>
+          Login with ESN Accounts
+        </ion-button>
+        <p class="version">v{{ version }}</p>
+      </ion-card-content>
+    </ion-card>
+  </form>
+</ion-content>

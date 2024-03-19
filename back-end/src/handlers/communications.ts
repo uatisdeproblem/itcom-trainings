@@ -4,6 +4,7 @@
 
 import { DynamoDB, HandledError, ResourceController } from 'idea-aws';
 
+import { User } from '../models/user.model';
 import { Communication } from '../models/communication.model';
 
 ///
@@ -21,10 +22,12 @@ export const handler = (ev: any, _: any, cb: any): Promise<void> => new Communic
 ///
 
 class CommunicationsRC extends ResourceController {
+  galaxyUser: User;
   communication: Communication;
 
   constructor(event: any, callback: any) {
     super(event, callback, { resourceId: 'communicationId' });
+    this.galaxyUser = new User(event.requestContext.authorizer.lambda.user);
   }
 
   protected async checkAuthBeforeRequest(): Promise<void> {

@@ -7,12 +7,6 @@ export const PROJECT = 'itcom-trainings';
  */
 export const DOMAIN = 'itcom-trainings.link';
 
-export const versionStatus: VersionStatus = {
-  latestVersion: '0.0.1',
-  minVersion: null,
-  maintenance: false
-};
-
 export const parameters: Parameters = {
   project: PROJECT,
   apiDomain: 'api.'.concat(DOMAIN),
@@ -66,19 +60,4 @@ export interface Stage {
    * The minimum level of log to print in functions (default: `INFO`).
    */
   logLevel?: 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL';
-}
-
-export interface VersionStatus {
-  /**
-   * The latest version of the app currently available.
-   */
-  latestVersion: string;
-  /**
-   * The minimum app version required to run the front-end, if any.
-   */
-  minVersion: string | null;
-  /**
-   * Wether the app is in maintenance mode.
-   */
-  maintenance: boolean;
 }

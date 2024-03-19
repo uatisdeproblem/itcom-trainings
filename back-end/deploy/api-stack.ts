@@ -11,24 +11,23 @@ import * as DDB from 'aws-cdk-lib/aws-dynamodb';
 import * as S3 from 'aws-cdk-lib/aws-s3';
 import * as S3Deployment from 'aws-cdk-lib/aws-s3-deployment';
 
-import { VersionStatus } from './environments';
-
 export interface ApiProps extends cdk.StackProps {
   project: string;
   stage: string;
   firstAdminEmail: string;
-  versionStatus: VersionStatus;
   apiDomain: string;
   apiDefinitionFile: string;
   resourceControllers: ResourceController[];
   tables: { [tableName: string]: DDBTable };
   mediaBucketArn: string;
   lambdaLogLevel: 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL';
+  appDomain: string;
   removalPolicy: RemovalPolicy;
 }
 export interface ResourceController {
   name: string;
   paths?: string[];
+  isAuthFunction?: boolean;
 }
 export interface DDBTable {
   PK: DDB.Attribute;
@@ -76,8 +75,8 @@ export class ApiStack extends cdk.Stack {
       defaultLambdaFnProps,
       project: props.project,
       stage: props.stage,
-      versionStatus: props.versionStatus,
-      lambdaLogLevel: props.lambdaLogLevel
+      lambdaLogLevel: props.lambdaLogLevel,
+      appDomain: props.appDomain
     });
     this.allowLambdaFunctionsToAccessIDEATablesAndFunctions({ lambdaFunctions: Object.values(lambdaFunctions) });
     this.allowLambdaFunctionsToAccessMediaBucketFoldersAndUploadAssets({
@@ -156,8 +155,8 @@ export class ApiStack extends cdk.Stack {
     resourceControllers: ResourceController[];
     defaultLambdaFnProps: NodejsFunctionProps;
     api: cdk.aws_apigatewayv2.CfnApi;
-    versionStatus: VersionStatus;
     lambdaLogLevel: 'TRACE' | 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL';
+    appDomain: string;
   }): {
     lambdaFunctions: { [resourceName: string]: NodejsFunction };
   } {
@@ -199,15 +198,24 @@ export class ApiStack extends cdk.Stack {
       lambdaFn.addPermission(`${resource.name}-permission`, {
         principal: new IAM.ServicePrincipal('apigateway.amazonaws.com'),
         action: 'lambda:InvokeFunction',
-        sourceArn: `arn:aws:execute-api:${region}:${account}:${params.api.ref}/*/*/*`
+        sourceArn: `arn:aws:execute-api:${region}:${account}:${params.api.ref}/*/*`
       });
+
+      // integrate the AuthFunction into the Api definition
+      if (resource.isAuthFunction)
+        params.api.body.components.securitySchemes['AuthFunction']['x-amazon-apigateway-authorizer'] = {
+          type: 'request',
+          identitySource: '$request.header.Authorization',
+          authorizerUri: `arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${region}:${account}:function:${lambdaFnName}/invocations`,
+          authorizerPayloadFormatVersion: '2.0',
+          authorizerResultTtlInSeconds: 300,
+          enableSimpleResponses: true
+        };
 
       lambdaFn.addEnvironment('PROJECT', params.project);
       lambdaFn.addEnvironment('STAGE', params.stage);
       lambdaFn.addEnvironment('RESOURCE', resource.name);
-      lambdaFn.addEnvironment('LATEST_VERSION', params.versionStatus.latestVersion);
-      lambdaFn.addEnvironment('MIN_VERSION', params.versionStatus.minVersion ?? '');
-      lambdaFn.addEnvironment('MAINTENANCE', params.versionStatus.maintenance ? 'true' : '');
+      lambdaFn.addEnvironment('APP_DOMAIN', params.appDomain);
 
       lambdaFunctions[resource.name] = lambdaFn;
     });
