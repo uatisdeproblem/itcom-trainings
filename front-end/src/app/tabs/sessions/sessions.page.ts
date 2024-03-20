@@ -17,4 +17,20 @@ export class SessionsPage {
   _modal = inject(ModalController);
 
   sessions: Session[];
+
+  async ionViewDidEnter(): Promise<void> {
+    try {
+      await this._loading.show();
+      this.sessions = await this._sessions.getList({ force: true });
+      this.sessions[0].speakers = ["John", "Mary"];
+      for (const session of this.sessions) {
+        console.log(session);
+      }
+    } catch (error) {
+      this._message.error('Error loading the list', true);
+    } finally {
+      this._loading.hide();
+    }
+  }
+
 }

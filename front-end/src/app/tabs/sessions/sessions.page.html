@@ -4,11 +4,35 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title class="ion-text-center">
-        <h2>TODO</h2>
-      </ion-card-title>
-    </ion-card-header>
-  </ion-card>
+  <ion-grid>
+    <ion-row>
+      @for(session of sessions; track session.sessionId) {
+      <ion-col size="12">
+        <ion-item>
+          <ion-label>
+            <h1>{{ session.name }}</h1>
+            <p>{{ session.brief }}</p>
+            <p><ion-icon name="location-outline"></ion-icon>{{ session.room }}</p>
+          </ion-label>
+          @for(speaker of session.speakers; track $index) {
+            <ion-item>
+              <ion-label>
+                {{ speaker }}
+              </ion-label>
+            </ion-item>
+          }
+          <ion-badge slot="end">{{ session.numMaxParticipants - session.participants.length }} spots left</ion-badge>
+          <ion-note slot="end" color="secondary">{{ session.startsAt | date:"short" }} - {{ session.endsAt | date:"short"}}</ion-note>
+        </ion-item>
+
+      </ion-col>
+      } @empty {
+      <ion-col>
+        <ion-item lines="none">
+          <ion-label>No elements</ion-label>
+        </ion-item>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
 </ion-content>

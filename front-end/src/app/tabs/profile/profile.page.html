@@ -4,12 +4,22 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-card>
+  <ion-card id="profile-card">
+    <ion-avatar id="profile-pic">
+      <img alt="Profile picture" [src]="_app.user.avatarURL" />
+    </ion-avatar>
     <ion-card-header>
       <ion-card-title class="ion-text-center">
-        <h2>Hello, {{ _app.user.firstName }}</h2>
+        <h2>Hello, {{ _app.user.firstName }}  {{ _app.user.lastName }}</h2>
       </ion-card-title>
+      <ion-card-subtitle class="ion-text-center">{{ _app.user.section }}, {{ _app.user.country }}</ion-card-subtitle>
     </ion-card-header>
+
+    <ion-card-content class="ion-text-center">
+      @for(role of _app.user.roles; track $index) {
+        <p>{{ role }}</p>
+      }
+    </ion-card-content>
   </ion-card>
   <p class="ion-text-center">
     <ion-button color="medium" (click)="_app.logout()">Logout</ion-button>

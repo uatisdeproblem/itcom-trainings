@@ -9,4 +9,9 @@ import { AppService } from '@app/app.service';
 })
 export class ProfilePage {
   _app = inject(AppService);
+
+  ngOnInit() {
+    console.log(this._app.user);
+  }
 }
+
