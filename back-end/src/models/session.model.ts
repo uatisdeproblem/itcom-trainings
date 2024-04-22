@@ -55,6 +55,7 @@ export class Session extends Resource {
     this.startsAt = this.clean(x.startsAt, d => new Date(d).toISOString());
     this.endsAt = this.clean(x.endsAt, d => new Date(d).toISOString());
     this.room = this.clean(x.room, String);
+    this.speakers = this.cleanArray(x.speakers, String);
     this.participants = this.cleanArray(x.participants, String);
     this.numMaxParticipants = this.clean(x.numMaxParticipants, Number, 0);
   }
