@@ -12,7 +12,7 @@ servers:
   - url: https://api.itcom-trainings.link/{environment}
     variables:
       environment:
-        enum: [dev, prod]
+        enum: [cyan, darkblue, green, orange, pink, black, white, dev, prod]
         default: dev
         description: The API stage
 

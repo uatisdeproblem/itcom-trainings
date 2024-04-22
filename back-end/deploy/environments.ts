@@ -24,6 +24,41 @@ export const stages: { [stage: string]: Stage } = {
     domain: 'dev.'.concat(DOMAIN),
     destroyDataOnDelete: true,
     logLevel: 'DEBUG'
+  },
+  cyan: {
+    domain: 'cyan.'.concat(DOMAIN),
+    destroyDataOnDelete: true,
+    logLevel: 'DEBUG'
+  },
+  darkblue: {
+    domain: 'darkblue.'.concat(DOMAIN),
+    destroyDataOnDelete: true,
+    logLevel: 'DEBUG'
+  },
+  green: {
+    domain: 'green.'.concat(DOMAIN),
+    destroyDataOnDelete: true,
+    logLevel: 'DEBUG'
+  },
+  orange: {
+    domain: 'orange.'.concat(DOMAIN),
+    destroyDataOnDelete: true,
+    logLevel: 'DEBUG'
+  },
+  pink: {
+    domain: 'pink.'.concat(DOMAIN),
+    destroyDataOnDelete: true,
+    logLevel: 'DEBUG'
+  },
+  black: {
+    domain: 'black.'.concat(DOMAIN),
+    destroyDataOnDelete: true,
+    logLevel: 'DEBUG'
+  },
+  white: {
+    domain: 'white.'.concat(DOMAIN),
+    destroyDataOnDelete: true,
+    logLevel: 'DEBUG'
   }
 };
 

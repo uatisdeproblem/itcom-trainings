@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # project specific parameters
+STAGE=$1
 AWS_PROFILE='itcom-trainings'
 DOMAIN_PROD='itcom-trainings.link'
-DOMAIN_DEV='dev.itcom-trainings.link'
+DOMAIN_DEV="${STAGE}.${DOMAIN_PROD}"
 
 # other parameters
-ACTION=$1
 SRC_FOLDER="${PWD}/src"
 BACK_END_FOLDER="back-end"
 SWAGGER_FILE="swagger.yaml"
@@ -19,16 +19,7 @@ export AWS_PAGER=""
 # set the script to exit in case of errors
 set -o errexit
 
-# parameters validation
-if [ "${ACTION}" != "dev" ] && [ "${ACTION}" != "prod" ]
-then
-  echo -e "${C}Target environment: dev|prod${NC}"
-  echo -e "${C}\t - dev:    release the front-end in the development environment${NC}"
-  echo -e "${C}\t - prod:   release the front-end in the production environment${NC}"
-  exit -1
-fi
-
-if [ "${ACTION}" == 'prod' ]
+if [ "${STAGE}" == 'prod' ]
 then
   DOMAIN=${DOMAIN_PROD}
 else
@@ -58,8 +49,8 @@ echo -e "${C}Uploading...${NC}"
 aws s3 sync ./www s3://${BUCKET} --profile ${AWS_PROFILE} --delete --exclude ".well-known/*" 1>/dev/null
 
 # add the Swagger (OpenApi 3.0) file
-echo -e "${C}Adding API docs...${NC}"
-aws s3 cp ../${BACK_END_FOLDER}/${SWAGGER_FILE} s3://${BUCKET}/${SWAGGER_FILE} --profile ${AWS_PROFILE} 1>/dev/null
+# echo -e "${C}Adding API docs...${NC}"
+# aws s3 cp ../${BACK_END_FOLDER}/${SWAGGER_FILE} s3://${BUCKET}/${SWAGGER_FILE} --profile ${AWS_PROFILE} 1>/dev/null
 
 # invalidate old common files from the CloudFront distribution
 echo -e "${C}Cleaning...${NC}"
