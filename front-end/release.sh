@@ -7,8 +7,7 @@ DOMAIN_PROD='itcom-trainings.link'
 DOMAIN_DEV="${STAGE}.${DOMAIN_PROD}"
 
 # other parameters
-SRC_FOLDER="${PWD}/src"
-BACK_END_FOLDER="back-end"
+SRC_FOLDER="src/"
 SWAGGER_FILE="swagger.yaml"
 C='\033[4;32m' # color
 NC='\033[0m'   # reset (no color)
@@ -47,10 +46,6 @@ BUCKET=`aws cloudfront get-distribution --id ${DISTRIBUTION} --profile ${AWS_PRO
 # upload the project's files to the S3 bucket
 echo -e "${C}Uploading...${NC}"
 aws s3 sync ./www s3://${BUCKET} --profile ${AWS_PROFILE} --delete --exclude ".well-known/*" 1>/dev/null
-
-# add the Swagger (OpenApi 3.0) file
-# echo -e "${C}Adding API docs...${NC}"
-# aws s3 cp ../${BACK_END_FOLDER}/${SWAGGER_FILE} s3://${BUCKET}/${SWAGGER_FILE} --profile ${AWS_PROFILE} 1>/dev/null
 
 # invalidate old common files from the CloudFront distribution
 echo -e "${C}Cleaning...${NC}"
