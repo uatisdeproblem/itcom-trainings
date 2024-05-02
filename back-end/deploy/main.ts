@@ -19,6 +19,7 @@ const apiResources: ResourceController[] = [
   { name: 'login', paths: ['/login'] },
   { name: 'media', paths: ['/media'] },
   { name: 'communications', paths: ['/communications', '/communications/{communicationId}'] },
+  { name: 'checklist', paths: ['/checklist'] },
   { name: 'sessions', paths: ['/sessions', '/sessions/{sessionId}'] }
 ];
 
@@ -28,6 +29,10 @@ const tables: { [tableName: string]: DDBTable } = {
   },
   sessions: {
     PK: { name: 'sessionId', type: DDB.AttributeType.STRING }
+  },
+  checklistUsers: {
+    PK: { name: 'userId', type: DDB.AttributeType.STRING },
+    SK: { name: 'checkName', type: DDB.AttributeType.STRING }
   }
 };
 

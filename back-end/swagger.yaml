@@ -29,6 +29,8 @@ tags:
     description: The platform's communications
   - name: Sessions
     description: The platform's sessions
+  - name: Checklist
+    description: The platform's event checklist
 
 paths:
   /login:
@@ -251,10 +253,55 @@ paths:
           $ref: '#/components/responses/OperationCompleted'
         400:
           $ref: '#/components/responses/BadParameters'
+  /checklist:
+    get:
+      summary: Get the elements of the checklist checked by the user
+      tags: [Checklist]
+      security:
+        - AuthFunction: []
+      responses:
+        200:
+          $ref: '#/components/responses/Checklist'
+    post:
+      summary: Check the element of the checklist for the user
+      tags: [Checklist]
+      security:
+        - AuthFunction: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+      responses:
+        200:
+          $ref: '#/components/responses/OperationCompleted'
+        400:
+          $ref: '#/components/responses/BadParameters'
+    delete:
+      summary: Uncheck the element of the checklist for the user
+      tags: [Checklist]
+      security:
+        - AuthFunction: []
+      parameters:
+        - name: checkName
+          in: query
+          description: The name of the element to uncheck
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/OperationCompleted'
+        400:
+          $ref: '#/components/responses/BadParameters'
 
 components:
   schemas:
     Communication:
+      type: object
+      additionalProperties: {}
+    Checklist:
       type: object
       additionalProperties: {}
     Session:
@@ -292,6 +339,13 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Session'
+    Checklist:
+      description: The checklist
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/schemas/Checklist'
     BadParameters:
       description: Bad input parameters
       content:

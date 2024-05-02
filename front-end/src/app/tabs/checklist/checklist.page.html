@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Checklist</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    @for(checkElement of list; track $index) {
+    <ion-item>
+      <ion-checkbox slot="start" (ionChange)="checkOrUncheck(checkElement)" [checked]="isChecked(checkElement)" />
+      <ion-label>{{ checkElement }}</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+</ion-content>

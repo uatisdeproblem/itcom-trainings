@@ -22,6 +22,10 @@ const routes: Routes = [
       {
         path: 'profile',
         loadChildren: (): Promise<any> => import('./profile/profile.module').then(m => m.ProfileModule)
+      },
+      {
+        path: 'checklist',
+        loadChildren: (): Promise<any> => import('./checklist/checklist.module').then(m => m.ChecklistModule)
       }
     ]
   }
