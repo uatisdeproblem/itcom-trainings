@@ -20,7 +20,8 @@ const apiResources: ResourceController[] = [
   { name: 'media', paths: ['/media'] },
   { name: 'communications', paths: ['/communications', '/communications/{communicationId}'] },
   { name: 'checklist', paths: ['/checklist'] },
-  { name: 'sessions', paths: ['/sessions', '/sessions/{sessionId}'] }
+  { name: 'sessions', paths: ['/sessions', '/sessions/{sessionId}'] },
+  { name: 'speakers', paths: ['/speakers', '/speakers/{speakerId}'] },
 ];
 
 const tables: { [tableName: string]: DDBTable } = {
@@ -33,7 +34,10 @@ const tables: { [tableName: string]: DDBTable } = {
   checklistUsers: {
     PK: { name: 'userId', type: DDB.AttributeType.STRING },
     SK: { name: 'checkName', type: DDB.AttributeType.STRING }
-  }
+  },
+  speakers: {
+    PK: {name: 'speakerId', type: DDB.AttributeType.STRING}
+  },
 };
 
 //

@@ -145,6 +145,87 @@ paths:
           $ref: '#/components/responses/OperationCompleted'
         400:
           $ref: '#/components/responses/BadParameters'
+  /speakers:
+    get:
+      summary: Get the speakers
+      tags: [Speakers]
+      security:
+        - AuthFunction: []
+      responses:
+        200:
+          $ref: '#/components/responses/Speakers'
+    post:
+      summary: Insert a new speaker
+      tags: [Speakers]
+      security:
+        - AuthFunction: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Speaker'
+      responses:
+        200:
+          $ref: '#/components/responses/Speaker'
+        400:
+          $ref: '#/components/responses/BadParameters'
+  /speaker/{speakerId}:
+    get:
+      summary: Get a speaker
+      tags: [Speakers]
+      security:
+        - AuthFunction: []
+      parameters:
+        - name: speakerId
+          in: path
+          description: Speaker ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/Speaker'
+    put:
+      summary: Edit a speaker
+      tags: [Speakers]
+      security:
+        - AuthFunction: []
+      parameters:
+        - name: speakerId
+          in: path
+          description: Speaker ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Speaker'
+      responses:
+        200:
+          $ref: '#/components/responses/Speaker'
+        400:
+          $ref: '#/components/responses/BadParameters'
+    delete:
+      summary: Delete a speaker
+      tags: [Speakers]
+      security:
+        - AuthFunction: []
+      parameters:
+        - name: speakerId
+          in: path
+          description: Speaker ID
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          $ref: '#/components/responses/OperationCompleted'
+        400:
+          $ref: '#/components/responses/BadParameters'
   /sessions:
     get:
       summary: Get the sessions
@@ -307,6 +388,9 @@ components:
     Session:
       type: object
       additionalProperties: {}
+    Speaker:
+      type: object
+      additionalProperties: {}
 
   responses:
     Communication:
@@ -324,6 +408,21 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Communication'
+    Speaker:
+      description: A speaker
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/schemas/Speaker'
+    Speakers:
+      description: The speakers
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Speaker'
     Session:
       description: A session
       content:
