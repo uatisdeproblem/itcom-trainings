@@ -26,6 +26,10 @@ const routes: Routes = [
       {
         path: 'checklist',
         loadChildren: (): Promise<any> => import('./checklist/checklist.module').then(m => m.ChecklistModule)
+      },
+      {
+        path: 'speakers',
+        loadChildren: (): Promise<any> => import('./speakers/speakers.module').then(m => m.SpeakersModule)
       }
     ]
   }

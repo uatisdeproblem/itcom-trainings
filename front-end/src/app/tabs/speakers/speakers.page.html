@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Speakers</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addSpeaker()">Add</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      @for(speaker of speakers; track speaker.speakerId) {
+      <ion-col size="12" sizeMd="6" sizeXl="4">
+        <app-speaker
+          [speaker]="speaker"
+          (select)="openSpeaker(speaker)"
+          (edit)="manageSpeaker(speaker)"
+        />
+      </ion-col>
+      } @empty {
+      <ion-col>
+        <ion-item lines="none">
+          <ion-label>No elements</ion-label>
+        </ion-item>
+      </ion-col>
+      }
+    </ion-row>
+  </ion-grid>
+</ion-content>
