@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms'
 import { SpeakerRoutingModule } from './speakers-routing.module';
 import { SpeakerComponent } from './speaker.component';
 import { SpeakersPage } from './speakers.page';
+import { SpeakerDetailComponent } from './speakerDetail.component';
+import { ManageSpeakerComponent } from './manageSpeaker.component';
 
 @NgModule({
   imports: [
@@ -14,8 +16,8 @@ import { SpeakersPage } from './speakers.page';
     IonicModule,
     SpeakerRoutingModule,
     SpeakerComponent,
-    //CommunicationDetailComponent,
-    //ManageCommunicationComponent
+    SpeakerDetailComponent,
+    ManageSpeakerComponent
   ],
   declarations: [SpeakersPage]
 })

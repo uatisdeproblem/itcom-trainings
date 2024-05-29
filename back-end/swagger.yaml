@@ -170,7 +170,7 @@ paths:
           $ref: '#/components/responses/Speaker'
         400:
           $ref: '#/components/responses/BadParameters'
-  /speaker/{speakerId}:
+  /speakers/{speakerId}:
     get:
       summary: Get a speaker
       tags: [Speakers]

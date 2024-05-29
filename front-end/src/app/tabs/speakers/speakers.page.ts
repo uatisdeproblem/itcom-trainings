@@ -4,6 +4,8 @@ import { IDEALoadingService, IDEAMessageService } from '@idea-ionic/common';
 
 import { Speaker } from '@models/speaker.model';
 import { SpeakerService } from './speakers.service';
+import { ManageSpeakerComponent } from './manageSpeaker.component';
+import { SpeakerDetailComponent } from './speakerDetail.component';
 
 @Component({
   selector: 'speakers',
@@ -30,15 +32,15 @@ export class SpeakersPage {
   }
 
   async openSpeaker(speaker: Speaker): Promise<void> {
-    /* const modal = await this._modal.create({
+    const modal = await this._modal.create({
       component: SpeakerDetailComponent,
       componentProps: { speaker }
     });
-    modal.present(); */
+    modal.present();
   }
 
   async manageSpeaker(speaker: Speaker): Promise<void> {
-    /* const modal = await this._modal.create({
+    const modal = await this._modal.create({
       component: ManageSpeakerComponent,
       componentProps: { speaker },
       backdropDismiss: false
@@ -46,10 +48,10 @@ export class SpeakersPage {
     modal.onDidDismiss().then(async (): Promise<void> => {
       this.speakers = await this._speakers.getList({ force: true });
     });
-    await modal.present(); */
+    await modal.present();
   }
 
   async addSpeaker(): Promise<void> {
-    //await this.manageCommunication(new Communication());
+    await this.manageSpeaker(new Speaker());
   }
 }
